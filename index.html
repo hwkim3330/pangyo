@@ -3,29 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#A50034">
+    <meta name="theme-color" content="#1a1a2e">
     <meta name="description" content="판교 오늘의 식단">
     <title>판교 오늘의 식단</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #A50034;
-            --primary-dark: #730024;
-            --primary-light: #D40045;
-            --accent: #4ade80;
-            --bg-start: #1a1a2e;
-            --bg-mid: #16213e;
-            --bg-end: #0f0f23;
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --card-border: rgba(255, 255, 255, 0.08);
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --text-primary: #ffffff;
-            --text-secondary: rgba(255, 255, 255, 0.7);
-            --text-muted: rgba(255, 255, 255, 0.4);
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -33,295 +17,164 @@
         }
 
         body {
-            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-mid) 50%, var(--bg-end) 100%);
+            font-family: 'Noto Sans KR', -apple-system, sans-serif;
+            background: linear-gradient(150deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
-            min-height: 100dvh;
-            color: var(--text-primary);
-            overflow-x: hidden;
-        }
-
-        /* Ambient Background */
-        .bg-ambient {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: 0;
-        }
-
-        .bg-ambient::before,
-        .bg-ambient::after {
-            content: '';
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.1;
-            animation: floatAmbient 10s ease-in-out infinite;
-        }
-
-        .bg-ambient::before {
-            background: var(--primary);
-            top: -50px;
-            right: -50px;
-        }
-
-        .bg-ambient::after {
-            background: var(--primary-dark);
-            bottom: 20%;
-            left: -100px;
-            animation-delay: -5s;
-        }
-
-        @keyframes floatAmbient {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(20px, 20px) scale(1.1); }
+            color: #fff;
         }
 
         .container {
-            position: relative;
-            z-index: 1;
             max-width: 500px;
             margin: 0 auto;
             padding: 20px;
             padding-bottom: 100px;
         }
 
-        /* Header with 3D Logo */
+        /* Header */
         .header {
             text-align: center;
-            margin-bottom: 25px;
-            padding: 30px 20px;
-            background: var(--glass-bg);
-            border-radius: 24px;
-            border: 1px solid var(--card-border);
-            backdrop-filter: blur(20px);
-            position: relative;
-            overflow: hidden;
+            padding: 28px 20px;
+            margin-bottom: 20px;
+            background: rgba(255,255,255,0.04);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.06);
         }
 
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 50%;
-            background: linear-gradient(to bottom, rgba(255,255,255,0.05), transparent);
-            pointer-events: none;
-        }
-
-        .logo-mini {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 15px;
-            background: radial-gradient(circle at 30% 30%, var(--primary-light), var(--primary) 50%, var(--primary-dark) 90%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow:
-                0 10px 30px rgba(165, 0, 52, 0.3),
-                inset 2px 2px 4px rgba(255,255,255,0.2),
-                inset -2px -2px 6px rgba(0,0,0,0.3);
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            perspective: 500px;
-        }
-
-        .logo-mini:hover {
-            transform: scale(1.05);
-        }
-
-        .logo-mini:active {
-            transform: scale(0.95);
-        }
-
-        .logo-mini svg {
-            width: 36px;
-            height: 36px;
+        .header-emoji {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
         }
 
         .header h1 {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 700;
             margin-bottom: 8px;
-            background: linear-gradient(90deg, #fff, rgba(255,255,255,0.8));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
-        .header .date {
+        .date {
             font-size: 1rem;
-            color: var(--text-secondary);
+            color: rgba(255,255,255,0.6);
             margin-bottom: 10px;
         }
 
-        .header .weekday {
+        .weekday {
             display: inline-block;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            padding: 6px 18px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 6px 20px;
             border-radius: 20px;
-            font-weight: 500;
             font-size: 0.9rem;
-            box-shadow: 0 4px 15px rgba(165, 0, 52, 0.3);
+            font-weight: 500;
         }
 
-        /* Info Cards */
+        /* Info Grid */
         .info-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         .info-card {
-            background: var(--glass-bg);
+            background: rgba(255,255,255,0.04);
             border-radius: 16px;
             padding: 16px;
-            border: 1px solid var(--card-border);
-            backdrop-filter: blur(10px);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .info-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.06);
         }
 
         .info-card.weather {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
-            border-color: rgba(102, 126, 234, 0.3);
+            background: linear-gradient(135deg, rgba(102,126,234,0.15), rgba(118,75,162,0.15));
         }
 
         .info-card.air {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(29, 78, 216, 0.2));
-            border-color: rgba(59, 130, 246, 0.3);
+            background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(29,78,216,0.15));
         }
 
-        .info-icon {
-            font-size: 1.5rem;
-            margin-bottom: 8px;
+        .info-emoji {
+            font-size: 1.8rem;
+            margin-bottom: 6px;
         }
 
         .info-label {
             font-size: 0.75rem;
-            color: var(--text-muted);
+            color: rgba(255,255,255,0.5);
             margin-bottom: 4px;
         }
 
         .info-value {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 700;
+        }
+
+        .info-value small {
+            font-size: 0.7rem;
+            font-weight: 400;
+            opacity: 0.6;
         }
 
         .info-sub {
             font-size: 0.8rem;
-            color: var(--text-secondary);
+            color: rgba(255,255,255,0.6);
             margin-top: 4px;
         }
 
-        .air-badge {
+        .badge {
             display: inline-block;
             padding: 2px 8px;
-            border-radius: 10px;
+            border-radius: 8px;
             font-size: 0.7rem;
-            margin-left: 5px;
+            font-weight: 500;
         }
 
-        .air-badge.good { background: rgba(74, 222, 128, 0.3); color: #4ade80; }
-        .air-badge.normal { background: rgba(251, 191, 36, 0.3); color: #fbbf24; }
-        .air-badge.bad { background: rgba(251, 146, 60, 0.3); color: #fb923c; }
-        .air-badge.worst { background: rgba(239, 68, 68, 0.3); color: #ef4444; }
+        .badge.good { background: rgba(74,222,128,0.25); color: #4ade80; }
+        .badge.normal { background: rgba(251,191,36,0.25); color: #fbbf24; }
+        .badge.bad { background: rgba(251,146,60,0.25); color: #fb923c; }
+        .badge.worst { background: rgba(239,68,68,0.25); color: #ef4444; }
 
         /* Menu Section */
         .menu-section {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
-        .section-title {
+        .section-header {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-bottom: 12px;
+            gap: 10px;
+            margin-bottom: 14px;
             padding-left: 4px;
         }
 
-        .section-title .icon {
-            width: 24px;
-            height: 24px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
+        .section-header .emoji {
+            font-size: 1.3rem;
+        }
+
+        .section-header .title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.85);
         }
 
         .menu-card {
-            background: var(--glass-bg);
-            border-radius: 20px;
-            padding: 20px;
-            border: 1px solid var(--card-border);
-            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.04);
+            border-radius: 18px;
+            padding: 18px;
+            border: 1px solid rgba(255,255,255,0.06);
             margin-bottom: 12px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .menu-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--primary-light), var(--primary));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .menu-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-        }
-
-        .menu-card:hover::before {
-            opacity: 1;
+        .menu-card:active {
+            transform: scale(0.98);
         }
 
         .menu-header {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 15px;
+            margin-bottom: 14px;
         }
 
-        .menu-icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-        }
-
-        .menu-icon.regular {
-            background: linear-gradient(135deg, #4ade80, #22c55e);
-            box-shadow: 0 4px 15px rgba(74, 222, 128, 0.3);
-        }
-
-        .menu-icon.special {
-            background: linear-gradient(135deg, #f472b6, #ec4899);
-            box-shadow: 0 4px 15px rgba(244, 114, 182, 0.3);
+        .menu-emoji {
+            font-size: 1.6rem;
         }
 
         .menu-title {
@@ -329,13 +182,13 @@
         }
 
         .menu-name {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 600;
         }
 
         .menu-price {
             font-size: 0.8rem;
-            color: var(--text-muted);
+            color: rgba(255,255,255,0.5);
         }
 
         .menu-items {
@@ -345,120 +198,88 @@
         }
 
         .menu-item {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255,255,255,0.08);
             padding: 8px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            transition: all 0.2s ease;
-            border: 1px solid transparent;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.8);
         }
 
-        .menu-item:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.1);
-            color: var(--text-primary);
-        }
-
-        /* Loading & Error States */
+        /* States */
         .loading {
             text-align: center;
-            padding: 40px 20px;
-            color: var(--text-secondary);
+            padding: 30px;
+            color: rgba(255,255,255,0.5);
         }
 
-        .loading-spinner {
-            width: 36px;
-            height: 36px;
-            border: 3px solid var(--card-border);
-            border-top-color: var(--primary);
+        .spinner {
+            width: 28px;
+            height: 28px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top-color: #667eea;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 15px;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 12px;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         .error {
             text-align: center;
-            padding: 30px;
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            border-radius: 16px;
-            color: #fca5a5;
+            padding: 24px;
+            background: rgba(239,68,68,0.1);
+            border-radius: 14px;
+            color: rgba(255,255,255,0.7);
         }
 
-        .weekend-notice {
+        .weekend {
             text-align: center;
             padding: 40px 20px;
-            color: var(--text-secondary);
+            color: rgba(255,255,255,0.6);
         }
 
-        .weekend-notice .icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
+        .weekend .emoji {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
         }
 
         /* Footer */
         .footer {
             text-align: center;
-            padding: 25px 20px;
-            color: var(--text-muted);
+            padding: 20px;
             font-size: 0.8rem;
+            color: rgba(255,255,255,0.35);
         }
 
         .footer a {
-            color: var(--text-secondary);
+            color: rgba(255,255,255,0.5);
             text-decoration: none;
-            transition: color 0.2s;
         }
 
-        .footer a:hover {
-            color: var(--primary-light);
-        }
-
-        .data-source {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            background: var(--glass-bg);
-            padding: 8px 15px;
-            border-radius: 20px;
-            margin-top: 10px;
-            font-size: 0.75rem;
-        }
-
-        /* Refresh Button */
+        /* Refresh */
         .refresh-btn {
             position: fixed;
-            bottom: 25px;
-            right: 25px;
-            width: 50px;
-            height: 50px;
+            bottom: 24px;
+            right: 24px;
+            width: 52px;
+            height: 52px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            background: linear-gradient(135deg, #667eea, #764ba2);
             border: none;
-            color: white;
-            font-size: 1.3rem;
+            color: #fff;
+            font-size: 1.4rem;
             cursor: pointer;
-            box-shadow: 0 5px 20px rgba(165, 0, 52, 0.4);
-            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(102,126,234,0.4);
+            transition: transform 0.2s;
             z-index: 100;
         }
 
-        .refresh-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 30px rgba(165, 0, 52, 0.5);
-        }
-
         .refresh-btn:active {
-            transform: scale(0.95);
+            transform: scale(0.9);
         }
 
         .refresh-btn.spinning {
-            animation: spin 1s linear infinite;
+            animation: spin 0.8s linear infinite;
         }
 
         /* Toast */
@@ -466,16 +287,15 @@
             position: fixed;
             bottom: 90px;
             left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: rgba(0,0,0,0.8);
-            color: white;
+            transform: translateX(-50%) translateY(20px);
+            background: rgba(0,0,0,0.85);
+            color: #fff;
             padding: 12px 24px;
-            border-radius: 25px;
+            border-radius: 12px;
             font-size: 0.85rem;
             opacity: 0;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
             z-index: 100;
-            backdrop-filter: blur(10px);
         }
 
         .toast.show {
@@ -483,375 +303,245 @@
             opacity: 1;
         }
 
-        /* Responsive */
         @media (max-width: 380px) {
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .header h1 {
-                font-size: 1.3rem;
-            }
+            .info-grid { grid-template-columns: 1fr; }
+            .header h1 { font-size: 1.2rem; }
         }
 
-        /* PWA */
         @media (display-mode: standalone) {
-            body {
-                padding-top: env(safe-area-inset-top);
-            }
-
-            .container {
-                padding-bottom: calc(100px + env(safe-area-inset-bottom));
-            }
-        }
-
-        /* Reduced Motion */
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                transition-duration: 0.01ms !important;
-            }
+            .container { padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
         }
     </style>
 </head>
 <body>
-    <div class="bg-ambient"></div>
-
     <div class="container">
-        <!-- Header -->
         <header class="header">
-            <div class="logo-mini" id="logoMini" title="클릭해서 LG 로고 보기">
-                <svg viewBox="0 0 400 400">
-                    <circle cx="125" cy="140" r="20" fill="white"/>
-                    <path d="M 305 85 A 160 160 0 1 0 360 200 L 230 200" fill="none" stroke="white" stroke-width="26"/>
-                    <path d="M 165 105 L 165 295 L 260 295" fill="none" stroke="white" stroke-width="26"/>
-                </svg>
-            </div>
+            <div class="header-emoji">🍽️</div>
             <h1>판교 오늘의 식단</h1>
-            <p class="date" id="currentDate">-</p>
-            <span class="weekday" id="currentWeekday">-</span>
+            <p class="date" id="date">-</p>
+            <span class="weekday" id="weekday">-</span>
         </header>
 
-        <!-- Info Cards -->
         <div class="info-grid">
-            <div class="info-card weather" id="weatherCard">
-                <div class="info-icon">-</div>
+            <div class="info-card weather" id="weather">
+                <div class="info-emoji">🌡️</div>
                 <div class="info-label">날씨</div>
                 <div class="info-value">--°C</div>
                 <div class="info-sub">로딩중...</div>
             </div>
-            <div class="info-card air" id="airCard">
-                <div class="info-icon">-</div>
+            <div class="info-card air" id="air">
+                <div class="info-emoji">💨</div>
                 <div class="info-label">미세먼지</div>
                 <div class="info-value">--</div>
                 <div class="info-sub">로딩중...</div>
             </div>
         </div>
 
-        <!-- Pangyo Menu -->
-        <section class="menu-section" id="pangyoSection">
-            <div class="section-title">
-                <span class="icon">P</span>
-                <span>판교테크노밸리</span>
+        <section class="menu-section" id="pangyo">
+            <div class="section-header">
+                <span class="emoji">🏢</span>
+                <span class="title">판교테크노밸리</span>
             </div>
-            <div class="loading">
-                <div class="loading-spinner"></div>
-                <p>메뉴 불러오는 중...</p>
-            </div>
+            <div class="loading"><div class="spinner"></div>메뉴 불러오는 중...</div>
         </section>
 
-        <!-- Biopark Menu -->
-        <section class="menu-section" id="bioparkSection">
-            <div class="section-title">
-                <span class="icon">B</span>
-                <span>바이오파크</span>
+        <section class="menu-section" id="biopark">
+            <div class="section-header">
+                <span class="emoji">🏢</span>
+                <span class="title">바이오파크</span>
             </div>
-            <div class="loading">
-                <div class="loading-spinner"></div>
-                <p>메뉴 불러오는 중...</p>
-            </div>
+            <div class="loading"><div class="spinner"></div>메뉴 불러오는 중...</div>
         </section>
 
-        <!-- Footer -->
         <footer class="footer">
             <p>자동 업데이트: 평일 11:30</p>
-            <div class="data-source">
-                <span>Data from</span>
-                <a href="https://sekainokita.github.io/bioparkmenu/" target="_blank">bioparkmenu</a>
-            </div>
+            <p style="margin-top:6px;">
+                Data: <a href="https://sekainokita.github.io/bioparkmenu/" target="_blank">bioparkmenu</a>
+            </p>
         </footer>
     </div>
 
-    <!-- Refresh Button -->
-    <button class="refresh-btn" id="refreshBtn" title="새로고침">↻</button>
-
-    <!-- Toast -->
+    <button class="refresh-btn" id="refresh">↻</button>
     <div class="toast" id="toast"></div>
 
     <script>
-        // API Base URL (GitHub Raw)
-        const DATA_BASE = 'https://raw.githubusercontent.com/sekainokita/bioparkmenu/main/web/data';
+        const API = 'https://sekainokita.github.io/bioparkmenu/data';
+        const WEEKDAYS = ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
 
-        // 요일
-        const WEEKDAYS = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
-
-        // Elements
-        const weatherCard = document.getElementById('weatherCard');
-        const airCard = document.getElementById('airCard');
-        const pangyoSection = document.getElementById('pangyoSection');
-        const bioparkSection = document.getElementById('bioparkSection');
-        const refreshBtn = document.getElementById('refreshBtn');
-        const toast = document.getElementById('toast');
-        const logoMini = document.getElementById('logoMini');
-
-        // 날짜 표시
         function updateDate() {
             const now = new Date();
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('currentDate').textContent = now.toLocaleDateString('ko-KR', options);
-            document.getElementById('currentWeekday').textContent = WEEKDAYS[now.getDay()];
+            document.getElementById('date').textContent = now.toLocaleDateString('ko-KR', {year:'numeric',month:'long',day:'numeric'});
+            document.getElementById('weekday').textContent = WEEKDAYS[now.getDay()];
         }
 
-        // Toast 표시
-        function showToast(message) {
-            toast.textContent = message;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2500);
+        function toast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2000);
         }
 
-        // 날씨 로드
         async function loadWeather() {
+            const el = document.getElementById('weather');
             try {
-                const res = await fetch(`${DATA_BASE}/weather.json?t=${Date.now()}`);
-                if (!res.ok) throw new Error('Weather not found');
-                const data = await res.json();
-
-                weatherCard.innerHTML = `
-                    <div class="info-icon">${data.icon_emoji || '🌡️'}</div>
-                    <div class="info-label">${data.location || '판교'}</div>
-                    <div class="info-value">${data.temp}°C</div>
-                    <div class="info-sub">${data.description}</div>
+                const r = await fetch(`${API}/weather.json?t=${Date.now()}`);
+                const d = await r.json();
+                el.innerHTML = `
+                    <div class="info-emoji">${d.icon_emoji || '🌡️'}</div>
+                    <div class="info-label">${d.location || '판교'}</div>
+                    <div class="info-value">${d.temp}°C</div>
+                    <div class="info-sub">${d.description}${d.humidity ? ` · 습도 ${d.humidity}%` : ''}</div>
                 `;
-            } catch (e) {
-                weatherCard.innerHTML = `
-                    <div class="info-icon">🌡️</div>
-                    <div class="info-label">날씨</div>
-                    <div class="info-value">--</div>
-                    <div class="info-sub">정보 없음</div>
-                `;
+            } catch(e) {
+                el.querySelector('.info-sub').textContent = '정보 없음';
             }
         }
 
-        // 미세먼지 로드
-        async function loadAirQuality() {
+        async function loadAir() {
+            const el = document.getElementById('air');
             try {
-                const res = await fetch(`${DATA_BASE}/air_quality.json?t=${Date.now()}`);
-                if (!res.ok) throw new Error('Air quality not found');
-                const data = await res.json();
-
-                const getGradeClass = (grade) => {
-                    switch(grade) {
-                        case '좋음': return 'good';
-                        case '보통': return 'normal';
-                        case '나쁨': return 'bad';
-                        case '매우나쁨': return 'worst';
-                        default: return 'normal';
-                    }
-                };
-
-                airCard.innerHTML = `
-                    <div class="info-icon">${data.pm10_emoji || '💨'}</div>
+                const r = await fetch(`${API}/air_quality.json?t=${Date.now()}`);
+                const d = await r.json();
+                const cls = d.pm10_grade === '좋음' ? 'good' : d.pm10_grade === '보통' ? 'normal' : d.pm10_grade === '나쁨' ? 'bad' : 'worst';
+                el.innerHTML = `
+                    <div class="info-emoji">${d.pm10_emoji || '💨'}</div>
                     <div class="info-label">미세먼지 PM10</div>
-                    <div class="info-value">${data.pm10}<span style="font-size:0.7rem;opacity:0.6">㎍/㎥</span></div>
-                    <div class="info-sub">
-                        <span class="air-badge ${getGradeClass(data.pm10_grade)}">${data.pm10_grade}</span>
-                        PM2.5: ${data.pm25}
-                    </div>
+                    <div class="info-value">${d.pm10}<small> ㎍/㎥</small></div>
+                    <div class="info-sub"><span class="badge ${cls}">${d.pm10_grade}</span> PM2.5: ${d.pm25}</div>
                 `;
-            } catch (e) {
-                airCard.innerHTML = `
-                    <div class="info-icon">💨</div>
-                    <div class="info-label">미세먼지</div>
-                    <div class="info-value">--</div>
-                    <div class="info-sub">정보 없음</div>
-                `;
+            } catch(e) {
+                el.querySelector('.info-sub').textContent = '정보 없음';
             }
         }
 
-        // 판교 메뉴 로드
-        async function loadPangyoMenu() {
-            const section = pangyoSection;
-            const title = section.querySelector('.section-title').outerHTML;
-
+        async function loadPangyo() {
+            const section = document.getElementById('pangyo');
+            const header = section.querySelector('.section-header').outerHTML;
             try {
-                const res = await fetch(`${DATA_BASE}/pangyo_menu.json?t=${Date.now()}`);
-                if (!res.ok) throw new Error('Pangyo menu not found');
-                const data = await res.json();
-
-                const today = WEEKDAYS[new Date().getDay()];
-                const dayOfWeek = new Date().getDay();
-                let menu = data.menus?.[today];
+                const r = await fetch(`${API}/pangyo_menu.json?t=${Date.now()}`);
+                const data = await r.json();
+                const day = new Date().getDay();
+                let menu = data.menus?.[WEEKDAYS[day]];
                 let note = '';
 
-                if (!menu && (dayOfWeek === 0 || dayOfWeek === 6)) {
+                if (!menu && (day === 0 || day === 6)) {
                     menu = data.menus?.['월요일'];
                     note = ' (월요일 미리보기)';
-                    if (!menu) {
-                        section.innerHTML = title + `
-                            <div class="weekend-notice">
-                                <div class="icon">🏖️</div>
-                                <p>주말에는 쉽니다</p>
-                            </div>
-                        `;
-                        return;
-                    }
                 }
 
                 if (!menu) {
-                    section.innerHTML = title + `<div class="error">오늘 메뉴 정보가 없습니다</div>`;
+                    if (day === 0 || day === 6) {
+                        section.innerHTML = header + `<div class="weekend"><div class="emoji">🏖️</div><p>주말에는 쉽니다</p></div>`;
+                    } else {
+                        section.innerHTML = header + `<div class="error">😢 오늘 메뉴 정보가 없습니다</div>`;
+                    }
                     return;
                 }
 
                 const items = Array.isArray(menu) ? menu : [menu];
-                section.innerHTML = title + `
+                section.innerHTML = header + `
                     <div class="menu-card">
                         <div class="menu-header">
-                            <div class="menu-icon regular">🍚</div>
+                            <span class="menu-emoji">🍚</span>
                             <div class="menu-title">
                                 <div class="menu-name">중식${note}</div>
                             </div>
                         </div>
-                        <div class="menu-items">
-                            ${items.map(item => `<span class="menu-item">${item}</span>`).join('')}
-                        </div>
+                        <div class="menu-items">${items.map(i=>`<span class="menu-item">${i}</span>`).join('')}</div>
                     </div>
                 `;
-            } catch (e) {
-                section.innerHTML = title + `<div class="error">메뉴를 불러올 수 없습니다</div>`;
+            } catch(e) {
+                section.innerHTML = header + `<div class="error">😢 메뉴를 불러올 수 없습니다</div>`;
             }
         }
 
-        // 바이오파크 메뉴 로드
-        async function loadBioparkMenu() {
-            const section = bioparkSection;
-            const title = section.querySelector('.section-title').outerHTML;
-
+        async function loadBiopark() {
+            const section = document.getElementById('biopark');
+            const header = section.querySelector('.section-header').outerHTML;
             try {
-                const res = await fetch(`${DATA_BASE}/menu.json?t=${Date.now()}`);
-                if (!res.ok) throw new Error('Menu not found');
-                const data = await res.json();
-
-                const today = WEEKDAYS[new Date().getDay()];
-                const dayOfWeek = new Date().getDay();
-                let menu = data.menus?.[today];
+                const r = await fetch(`${API}/menu.json?t=${Date.now()}`);
+                const data = await r.json();
+                const day = new Date().getDay();
+                let menu = data.menus?.[WEEKDAYS[day]];
                 let note = '';
 
-                if (!menu && (dayOfWeek === 0 || dayOfWeek === 6)) {
+                if (!menu && (day === 0 || day === 6)) {
                     menu = data.menus?.['월요일'];
                     note = ' (월요일 미리보기)';
-                    if (!menu) {
-                        section.innerHTML = title + `
-                            <div class="weekend-notice">
-                                <div class="icon">🏖️</div>
-                                <p>주말에는 쉽니다</p>
-                            </div>
-                        `;
-                        return;
-                    }
                 }
 
                 if (!menu) {
-                    section.innerHTML = title + `<div class="error">오늘 메뉴 정보가 없습니다</div>`;
+                    if (day === 0 || day === 6) {
+                        section.innerHTML = header + `<div class="weekend"><div class="emoji">🏖️</div><p>주말에는 쉽니다</p></div>`;
+                    } else {
+                        section.innerHTML = header + `<div class="error">😢 오늘 메뉴 정보가 없습니다</div>`;
+                    }
                     return;
                 }
 
-                let html = title;
+                let html = header;
 
                 if (menu['일반식']) {
-                    const items = Array.isArray(menu['일반식']) ? menu['일반식'] : menu['일반식'].split(',').map(s => s.trim());
+                    const items = Array.isArray(menu['일반식']) ? menu['일반식'] : menu['일반식'].split(',').map(s=>s.trim());
                     html += `
                         <div class="menu-card">
                             <div class="menu-header">
-                                <div class="menu-icon regular">🍚</div>
+                                <span class="menu-emoji">🍚</span>
                                 <div class="menu-title">
                                     <div class="menu-name">일반식${note}</div>
                                     <div class="menu-price">6,000원</div>
                                 </div>
                             </div>
-                            <div class="menu-items">
-                                ${items.map(item => `<span class="menu-item">${item}</span>`).join('')}
-                            </div>
+                            <div class="menu-items">${items.map(i=>`<span class="menu-item">${i}</span>`).join('')}</div>
                         </div>
                     `;
                 }
 
                 if (menu['일품식']) {
-                    const items = Array.isArray(menu['일품식']) ? menu['일품식'] : menu['일품식'].split(',').map(s => s.trim());
+                    const items = Array.isArray(menu['일품식']) ? menu['일품식'] : menu['일품식'].split(',').map(s=>s.trim());
                     html += `
                         <div class="menu-card">
                             <div class="menu-header">
-                                <div class="menu-icon special">🍜</div>
+                                <span class="menu-emoji">🍜</span>
                                 <div class="menu-title">
                                     <div class="menu-name">일품식${note}</div>
                                     <div class="menu-price">6,000원</div>
                                 </div>
                             </div>
-                            <div class="menu-items">
-                                ${items.map(item => `<span class="menu-item">${item}</span>`).join('')}
-                            </div>
+                            <div class="menu-items">${items.map(i=>`<span class="menu-item">${i}</span>`).join('')}</div>
                         </div>
                     `;
                 }
 
                 section.innerHTML = html;
-            } catch (e) {
-                section.innerHTML = title + `<div class="error">메뉴를 불러올 수 없습니다</div>`;
+            } catch(e) {
+                section.innerHTML = header + `<div class="error">😢 메뉴를 불러올 수 없습니다</div>`;
             }
         }
 
-        // 전체 새로고침
-        async function refreshAll() {
-            refreshBtn.classList.add('spinning');
-
-            await Promise.all([
-                loadWeather(),
-                loadAirQuality(),
-                loadPangyoMenu(),
-                loadBioparkMenu()
-            ]);
-
-            refreshBtn.classList.remove('spinning');
-            showToast('업데이트 완료!');
+        async function refresh() {
+            const btn = document.getElementById('refresh');
+            btn.classList.add('spinning');
+            await Promise.all([loadWeather(), loadAir(), loadPangyo(), loadBiopark()]);
+            btn.classList.remove('spinning');
+            toast('업데이트 완료!');
         }
 
-        // 이벤트
-        refreshBtn.addEventListener('click', refreshAll);
+        document.getElementById('refresh').onclick = refresh;
 
-        logoMini.addEventListener('click', () => {
-            window.open('https://hwkim3330.github.io/LG/', '_blank');
-        });
+        // Pull to refresh
+        let startY = 0;
+        document.addEventListener('touchstart', e => startY = e.touches[0].clientY, {passive:true});
+        document.addEventListener('touchend', e => {
+            if (e.changedTouches[0].clientY - startY > 120 && window.scrollY === 0) refresh();
+        }, {passive:true});
 
-        // 초기화
+        // Init
         updateDate();
         loadWeather();
-        loadAirQuality();
-        loadPangyoMenu();
-        loadBioparkMenu();
-
-        // Pull to refresh (간단 버전)
-        let touchStartY = 0;
-        document.addEventListener('touchstart', (e) => {
-            touchStartY = e.touches[0].clientY;
-        }, { passive: true });
-
-        document.addEventListener('touchend', (e) => {
-            const touchEndY = e.changedTouches[0].clientY;
-            const diff = touchEndY - touchStartY;
-
-            if (diff > 150 && window.scrollY === 0) {
-                refreshAll();
-            }
-        }, { passive: true });
+        loadAir();
+        loadPangyo();
+        loadBiopark();
     </script>
 </body>
 </html>
