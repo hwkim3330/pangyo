@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#000">
+    <title>KETI 판교 키오스크</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, sans-serif;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* === TOP: VIDEO === */
+        .video-section {
+            width: 100%;
+            height: 45vh;
+            background: #000;
+            position: relative;
+            border-bottom: 1px solid #222;
+        }
+
+        .video-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-nav {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .video-nav button {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: background 0.2s;
+        }
+
+        .video-nav button:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .video-info {
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            background: rgba(0,0,0,0.7);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        /* === BOTTOM: CONTENT === */
+        .content-section {
+            height: 55vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* Left: Menu */
+        .menu-panel {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            background: linear-gradient(150deg, #1a1a2e, #16213e);
+            border-right: 1px solid #333;
+        }
+
+        /* Right: Scheduler */
+        .schedule-panel {
+            width: 45%;
+            display: flex;
+            flex-direction: column;
+            background: #141414;
+        }
+
+        /* === MENU STYLES === */
+        .menu-header {
+            text-align: center;
+            padding: 15px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 14px;
+            margin-bottom: 15px;
+        }
+
+        .menu-header h1 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .menu-date {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .menu-weekday {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 4px 14px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-top: 8px;
+        }
+
+        .info-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .info-card {
+            flex: 1;
+            background: rgba(255,255,255,0.04);
+            border-radius: 12px;
+            padding: 12px;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .info-card.weather { background: linear-gradient(135deg, rgba(102,126,234,0.15), rgba(118,75,162,0.15)); }
+        .info-card.air { background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(29,78,216,0.15)); }
+
+        .info-emoji { font-size: 1.4rem; }
+        .info-label { font-size: 0.7rem; color: rgba(255,255,255,0.5); margin: 4px 0 2px; }
+        .info-value { font-size: 1.2rem; font-weight: 700; }
+        .info-value small { font-size: 0.65rem; opacity: 0.6; }
+        .info-sub { font-size: 0.75rem; color: rgba(255,255,255,0.6); margin-top: 3px; }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-size: 0.65rem;
+        }
+        .badge.good { background: rgba(74,222,128,0.25); color: #4ade80; }
+        .badge.normal { background: rgba(251,191,36,0.25); color: #fbbf24; }
+        .badge.bad { background: rgba(251,146,60,0.25); color: #fb923c; }
+
+        .menu-section { margin-bottom: 15px; }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .menu-card {
+            background: rgba(255,255,255,0.04);
+            border-radius: 14px;
+            padding: 14px;
+            border: 1px solid rgba(255,255,255,0.06);
+            margin-bottom: 10px;
+        }
+
+        .menu-card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .menu-emoji { font-size: 1.3rem; }
+        .menu-name { font-size: 0.95rem; font-weight: 600; }
+        .menu-price { font-size: 0.75rem; color: rgba(255,255,255,0.5); }
+
+        .menu-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .menu-item {
+            background: rgba(255,255,255,0.08);
+            padding: 6px 10px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .loading { text-align: center; padding: 20px; color: rgba(255,255,255,0.4); }
+        .spinner { width: 24px; height: 24px; border: 2px solid rgba(255,255,255,0.1); border-top-color: #667eea; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 10px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .error { text-align: center; padding: 15px; background: rgba(239,68,68,0.1); border-radius: 10px; color: rgba(255,255,255,0.6); font-size: 0.85rem; }
+
+        /* === SCHEDULER STYLES === */
+        .sch-header {
+            padding: 12px 15px;
+            background: #1c1c1e;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sch-title { font-size: 1rem; font-weight: 700; }
+        .sch-date { font-size: 0.75rem; color: #888; }
+        .sch-clock { font-size: 1.1rem; font-weight: 300; font-variant-numeric: tabular-nums; }
+        .sch-stats { font-size: 0.7rem; color: #888; margin-top: 3px; }
+        .sch-stats b { color: #0A84FF; margin: 0 6px 0 2px; }
+
+        .sch-body { flex: 1; overflow-y: auto; padding: 10px; }
+
+        .loc-grp { background: #18181a; border: 1px solid #333; border-radius: 8px; margin-bottom: 12px; overflow: hidden; }
+        .loc-h { padding: 8px 10px; background: rgba(255,255,255,0.04); border-bottom: 1px solid #333; font-weight: 600; font-size: 0.85rem; color: #ccc; display: flex; justify-content: space-between; }
+
+        .tl-hd { display: flex; height: 22px; background: #222; border-bottom: 1px solid #333; }
+        .tl-nm-col { width: 55px; border-right: 1px solid #333; flex-shrink: 0; }
+        .tl-tr-col { flex: 1; display: flex; }
+        .tm-lbl { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #555; border-right: 1px solid rgba(255,255,255,0.03); }
+
+        .tl-row { display: flex; height: 45px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .tl-nm { width: 55px; border-right: 1px solid #333; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #aaa; font-weight: 600; background: #1a1a1c; text-align: center; padding: 0 2px; word-break: keep-all; z-index: 5; }
+        .tl-tr { flex: 1; position: relative; background: #121212; }
+
+        .g-lines { position: absolute; inset: 0; display: flex; pointer-events: none; }
+        .g-cell { flex: 1; border-right: 1px solid rgba(255,255,255,0.02); }
+
+        .now-bar { position: absolute; top: 0; bottom: 0; width: 1px; background: #ff453a; z-index: 20; display: none; }
+
+        .bk-bar {
+            position: absolute; top: 6px; bottom: 6px; background: #0A84FF; border-radius: 3px;
+            font-size: 9px; color: white; font-weight: 600; display: flex; align-items: center;
+            padding: 0 4px; overflow: hidden; white-space: nowrap; cursor: pointer; z-index: 10;
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+        }
+
+        /* Modal */
+        #modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 9999; }
+        .m-box { width: 300px; background: #222; padding: 20px; border-radius: 12px; border: 1px solid #444; }
+        .m-r { display: flex; margin-bottom: 10px; font-size: 13px; color: #ddd; }
+        .m-l { width: 50px; color: #777; }
+        .m-btn { width: 100%; padding: 10px; margin-top: 10px; background: #0A84FF; border: none; color: white; border-radius: 6px; font-weight: 600; cursor: pointer; }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .content-section { flex-direction: column; height: auto; }
+            .menu-panel { border-right: none; border-bottom: 1px solid #333; }
+            .schedule-panel { width: 100%; height: 50vh; }
+            .video-section { height: 35vh; }
+        }
+
+        @media (max-width: 768px) {
+            .video-section { height: 30vh; }
+            .schedule-panel { display: none; }
+            .menu-panel { min-height: 60vh; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- VIDEO SECTION -->
+<div class="video-section">
+    <div class="video-info">
+        <span id="videoTitle">KETI 홍보영상</span>
+    </div>
+    <div class="video-container">
+        <iframe id="ytPlayer"
+            src="https://www.youtube.com/embed/videoseries?list=UU2C9RmIRe9psYHmCxxnU8Xw&autoplay=1&mute=1&loop=1&controls=0&modestbranding=1&rel=0"
+            allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+    <div class="video-nav">
+        <button onclick="prevVideo()">◀</button>
+        <button onclick="nextVideo()">▶</button>
+    </div>
+</div>
+
+<!-- CONTENT SECTION -->
+<div class="content-section">
+    <!-- LEFT: MENU -->
+    <div class="menu-panel">
+        <div class="menu-header">
+            <h1>🍽️ 판교 오늘의 식단</h1>
+            <p class="menu-date" id="menuDate">-</p>
+            <span class="menu-weekday" id="menuWeekday">-</span>
+        </div>
+
+        <div class="info-row">
+            <div class="info-card weather" id="weather">
+                <div class="info-emoji">🌡️</div>
+                <div class="info-label">날씨</div>
+                <div class="info-value">--°C</div>
+                <div class="info-sub">로딩중...</div>
+            </div>
+            <div class="info-card air" id="air">
+                <div class="info-emoji">💨</div>
+                <div class="info-label">미세먼지</div>
+                <div class="info-value">--</div>
+                <div class="info-sub">로딩중...</div>
+            </div>
+        </div>
+
+        <div class="menu-section" id="pangyo">
+            <div class="section-title">🏢 판교테크노밸리</div>
+            <div class="loading"><div class="spinner"></div>로딩중...</div>
+        </div>
+
+        <div class="menu-section" id="biopark">
+            <div class="section-title">🏢 바이오파크</div>
+            <div class="loading"><div class="spinner"></div>로딩중...</div>
+        </div>
+    </div>
+
+    <!-- RIGHT: SCHEDULER -->
+    <div class="schedule-panel">
+        <div class="sch-header">
+            <div>
+                <div class="sch-title">KETI 회의실</div>
+                <div class="sch-date" id="schDate">-</div>
+            </div>
+            <div style="text-align:right">
+                <div class="sch-clock" id="clock">00:00:00</div>
+                <div class="sch-stats">GL<b id="sG">0</b>GBC<b id="sB">0</b></div>
+            </div>
+        </div>
+        <div class="sch-body" id="schContent">
+            <div class="loading"><div class="spinner"></div>회의실 로딩중...</div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL -->
+<div id="modal">
+    <div class="m-box">
+        <div style="font-size:16px; font-weight:700; margin-bottom:15px;">예약 상세</div>
+        <div class="m-r"><span class="m-l">제목</span><span id="mT"></span></div>
+        <div class="m-r"><span class="m-l">시간</span><span id="mD"></span></div>
+        <div class="m-r"><span class="m-l">장소</span><span id="mR"></span></div>
+        <div class="m-r"><span class="m-l">담당</span><span id="mU"></span></div>
+        <button class="m-btn" onclick="document.getElementById('modal').style.display='none'">닫기</button>
+    </div>
+</div>
+
+<script>
+    // ========== VIDEO ==========
+    const KETI_VIDEOS = [
+        { id: 'dQw4w9WgXcQ', title: 'KETI 홍보영상' },  // placeholder - 실제 KETI 영상 ID로 교체
+    ];
+    let currentVideo = 0;
+    const ytPlayer = document.getElementById('ytPlayer');
+
+    function playVideo(idx) {
+        // YouTube 채널 업로드 재생목록 사용 (자동 순환)
+        // UU + 채널ID = 업로드 재생목록
+        ytPlayer.src = `https://www.youtube.com/embed/videoseries?list=UU2C9RmIRe9psYHmCxxnU8Xw&autoplay=1&mute=1&loop=1&controls=0&modestbranding=1&rel=0&index=${idx}`;
+    }
+
+    function nextVideo() { currentVideo++; playVideo(currentVideo); }
+    function prevVideo() { currentVideo = Math.max(0, currentVideo - 1); playVideo(currentVideo); }
+
+
+    // ========== MENU ==========
+    const MENU_API = 'https://sekainokita.github.io/bioparkmenu/data';
+    const WEEKDAYS = ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
+
+    function updateMenuDate() {
+        const now = new Date();
+        document.getElementById('menuDate').textContent = now.toLocaleDateString('ko-KR', {year:'numeric',month:'long',day:'numeric'});
+        document.getElementById('menuWeekday').textContent = WEEKDAYS[now.getDay()];
+    }
+
+    async function loadWeather() {
+        const el = document.getElementById('weather');
+        try {
+            const r = await fetch(`${MENU_API}/weather.json?t=${Date.now()}`);
+            const d = await r.json();
+            el.innerHTML = `
+                <div class="info-emoji">${d.icon_emoji || '🌡️'}</div>
+                <div class="info-label">${d.location || '판교'}</div>
+                <div class="info-value">${d.temp}°C</div>
+                <div class="info-sub">${d.description}</div>
+            `;
+        } catch(e) { el.querySelector('.info-sub').textContent = '정보 없음'; }
+    }
+
+    async function loadAir() {
+        const el = document.getElementById('air');
+        try {
+            const r = await fetch(`${MENU_API}/air_quality.json?t=${Date.now()}`);
+            const d = await r.json();
+            const cls = d.pm10_grade === '좋음' ? 'good' : d.pm10_grade === '보통' ? 'normal' : 'bad';
+            el.innerHTML = `
+                <div class="info-emoji">${d.pm10_emoji || '💨'}</div>
+                <div class="info-label">미세먼지</div>
+                <div class="info-value">${d.pm10}<small> ㎍/㎥</small></div>
+                <div class="info-sub"><span class="badge ${cls}">${d.pm10_grade}</span></div>
+            `;
+        } catch(e) { el.querySelector('.info-sub').textContent = '정보 없음'; }
+    }
+
+    async function loadPangyo() {
+        const section = document.getElementById('pangyo');
+        const title = section.querySelector('.section-title').outerHTML;
+        try {
+            const r = await fetch(`${MENU_API}/pangyo_menu.json?t=${Date.now()}`);
+            const data = await r.json();
+            const day = new Date().getDay();
+            let menu = data.menus?.[WEEKDAYS[day]];
+            if (!menu && (day === 0 || day === 6)) menu = data.menus?.['월요일'];
+            if (!menu) { section.innerHTML = title + `<div class="error">메뉴 정보 없음</div>`; return; }
+            const items = Array.isArray(menu) ? menu : [menu];
+            section.innerHTML = title + `
+                <div class="menu-card">
+                    <div class="menu-card-header">
+                        <span class="menu-emoji">🍚</span>
+                        <div><div class="menu-name">중식</div></div>
+                    </div>
+                    <div class="menu-items">${items.map(i=>`<span class="menu-item">${i}</span>`).join('')}</div>
+                </div>
+            `;
+        } catch(e) { section.innerHTML = title + `<div class="error">불러오기 실패</div>`; }
+    }
+
+    async function loadBiopark() {
+        const section = document.getElementById('biopark');
+        const title = section.querySelector('.section-title').outerHTML;
+        try {
+            const r = await fetch(`${MENU_API}/menu.json?t=${Date.now()}`);
+            const data = await r.json();
+            const day = new Date().getDay();
+            let menu = data.menus?.[WEEKDAYS[day]];
+            if (!menu && (day === 0 || day === 6)) menu = data.menus?.['월요일'];
+            if (!menu) { section.innerHTML = title + `<div class="error">메뉴 정보 없음</div>`; return; }
+            let html = title;
+            if (menu['일반식']) {
+                const items = Array.isArray(menu['일반식']) ? menu['일반식'] : menu['일반식'].split(',').map(s=>s.trim());
+                html += `<div class="menu-card"><div class="menu-card-header"><span class="menu-emoji">🍚</span><div><div class="menu-name">일반식</div><div class="menu-price">6,000원</div></div></div><div class="menu-items">${items.map(i=>`<span class="menu-item">${i}</span>`).join('')}</div></div>`;
+            }
+            if (menu['일품식']) {
+                const items = Array.isArray(menu['일품식']) ? menu['일품식'] : menu['일품식'].split(',').map(s=>s.trim());
+                html += `<div class="menu-card"><div class="menu-card-header"><span class="menu-emoji">🍜</span><div><div class="menu-name">일품식</div><div class="menu-price">6,000원</div></div></div><div class="menu-items">${items.map(i=>`<span class="menu-item">${i}</span>`).join('')}</div></div>`;
+            }
+            section.innerHTML = html;
+        } catch(e) { section.innerHTML = title + `<div class="error">불러오기 실패</div>`; }
+    }
+
+
+    // ========== SCHEDULER ==========
+    const MY_TOKEN = 's701wolho5si:sQYP0UfqQD-R6C626bOJtQ';
+    const CFG = { START: 8, END: 20 };
+    const KST = 'Asia/Seoul';
+
+    function getYMD(d) { return new Intl.DateTimeFormat('sv-SE', { timeZone: KST }).format(d); }
+    const todayStr = getYMD(new Date());
+
+    function updateClock() {
+        document.getElementById('clock').textContent = new Date().toLocaleTimeString('ko-KR', { hour12: false });
+    }
+
+    function calcPos() {
+        const now = new Date();
+        const h = now.getHours() + now.getMinutes()/60;
+        return ((h - CFG.START) / (CFG.END - CFG.START)) * 100;
+    }
+
+    function updateLine() {
+        const lines = document.querySelectorAll('.now-bar');
+        const pos = calcPos();
+        lines.forEach(l => {
+            if(pos >= 0 && pos <= 100) { l.style.display='block'; l.style.left=`${pos}%`; }
+            else { l.style.display='none'; }
+        });
+    }
+
+    async function loadSchedule() {
+        document.getElementById('schDate').textContent = `${todayStr} (${new Date().toLocaleDateString('ko-KR',{weekday:'short'})})`;
+
+        try {
+            const proxyBase = 'https://corsproxy.io/?' + encodeURIComponent('https://api.dooray.com');
+            const headers = { 'Authorization': `dooray-api ${MY_TOKEN}` };
+
+            const cRes = await fetch(`${proxyBase}/reservation/v1/resource-categories?size=20`, { headers });
+            const cData = await cRes.json();
+
+            const locs = (cData.result || [])
+                .filter(l => l.name && (l.name.includes('글로벌R&D') || l.name.includes('GBC')))
+                .sort((a,b) => a.name.includes('글로벌') ? -1 : 1);
+
+            const container = document.getElementById('schContent');
+            container.innerHTML = '';
+
+            let gCount = 0, bCount = 0;
+            const now = new Date();
+
+            for (const loc of locs) {
+                const rRes = await fetch(`${proxyBase}/reservation/v1/reservable-resources?resourceCategoryId=${loc.id}&size=100`, { headers });
+                const rData = await rRes.json();
+                const rooms = rData.result || [];
+
+                let resvs = [];
+                if (rooms.length > 0) {
+                    const ids = rooms.map(x => x.id).join(',');
+                    const tMin = `${todayStr}T00:00:00+09:00`;
+                    const tMax = `${todayStr}T23:59:59+09:00`;
+                    const vRes = await fetch(`${proxyBase}/reservation/v1/resource-reservations?resourceIds=${ids}&timeMin=${tMin}&timeMax=${tMax}&size=500`, { headers });
+                    const vData = await vRes.json();
+                    resvs = vData.result || [];
+                }
+
+                const isG = loc.name.includes('글로벌');
+                rooms.forEach(r => {
+                    const busy = resvs.some(v => v.resource.id === r.id && now >= new Date(v.startedAt) && now <= new Date(v.endedAt));
+                    if(!busy) isG ? gCount++ : bCount++;
+                });
+
+                renderLoc(container, loc, rooms, resvs);
+            }
+
+            document.getElementById('sG').textContent = gCount;
+            document.getElementById('sB').textContent = bCount;
+
+        } catch(e) {
+            console.error(e);
+            document.getElementById('schContent').innerHTML = '<div class="error">회의실 정보 로드 실패</div>';
+        }
+    }
+
+    function renderLoc(parent, loc, rooms, resvs) {
+        const grp = document.createElement('div');
+        grp.className = 'loc-grp';
+        const name = loc.name.includes('글로벌') ? 'Global R&D' : 'GBC';
+
+        let h = `<div class="loc-h"><span>${name}</span><span onclick="loadSchedule()" style="cursor:pointer">↻</span></div>`;
+        h += `<div class="tl-hd"><div class="tl-nm-col"></div><div class="tl-tr-col">`;
+        for(let i=CFG.START; i<CFG.END; i++) h += `<div class="tm-lbl">${i}</div>`;
+        h += `</div></div><div>`;
+
+        rooms.sort((a,b) => a.name.localeCompare(b.name)).forEach(r => {
+            let rName = r.name.replace(/\d+층/,'').replace(/회의실/,'').replace(/대회의실/,'대').replace(/소회의실/,'소').replace(/중회의실/,'중').trim();
+
+            h += `<div class="tl-row"><div class="tl-nm">${rName}</div><div class="tl-tr"><div class="g-lines">`;
+            for(let i=0; i<(CFG.END-CFG.START); i++) h += `<div class="g-cell"></div>`;
+
+            const pos = calcPos();
+            h += `<div class="now-bar" style="${(pos>=0&&pos<=100)?`left:${pos}%;display:block`:'display:none'}"></div></div>`;
+
+            resvs.filter(x => x.resource.id === r.id).forEach(v => {
+                const s = new Date(v.startedAt), e = new Date(v.endedAt);
+                let off = (s.getHours() + s.getMinutes()/60) - CFG.START;
+                let dur = (e.getTime() - s.getTime()) / 3600000;
+                const tot = CFG.END - CFG.START;
+                if(off<0) { dur+=off; off=0; }
+                if(off+dur>tot) dur=tot-off;
+
+                if(dur>0 && off<tot) {
+                    const l = (off/tot)*100, w = (dur/tot)*100;
+                    const safeT = (v.subject||'').replace(/"/g,'&quot;');
+                    const safeU = (v.users?.from?.member?.name||'?').replace(/"/g,'&quot;');
+                    const timeS = s.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false});
+                    const timeE = e.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false});
+                    h += `<div class="bk-bar" style="left:${l}%;width:${w}%;" onclick="pop('${safeT}','${timeS}~${timeE}','${r.name}','${safeU}')">${v.subject}</div>`;
+                }
+            });
+            h += `</div></div>`;
+        });
+        h += `</div>`;
+        grp.innerHTML = h;
+        parent.appendChild(grp);
+    }
+
+    function pop(t,d,r,u) {
+        document.getElementById('mT').textContent=t;
+        document.getElementById('mD').textContent=d;
+        document.getElementById('mR').textContent=r;
+        document.getElementById('mU').textContent=u;
+        document.getElementById('modal').style.display='flex';
+    }
+
+
+    // ========== INIT ==========
+    updateMenuDate();
+    updateClock();
+    loadWeather();
+    loadAir();
+    loadPangyo();
+    loadBiopark();
+    loadSchedule();
+
+    setInterval(updateClock, 1000);
+    setInterval(updateLine, 60000);
+    setInterval(() => { loadWeather(); loadAir(); loadPangyo(); loadBiopark(); }, 180000);
+    setInterval(loadSchedule, 180000);
+
+    // 자정 새로고침
+    setInterval(() => {
+        if (getYMD(new Date()) !== todayStr) location.reload();
+    }, 60000);
+</script>
+
+</body>
+</html>
